@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Trial1 {
+public class Stocker {
 
     static class CompanyInfo {
         String name;
@@ -47,24 +47,19 @@ public class Trial1 {
         Collections.sort(list, new Comparator<Map.Entry<String, CompanyInfo>>() {
             public int compare(Map.Entry<String, CompanyInfo> o1, Map.Entry<String, CompanyInfo> o2) {
                 try {
-                    int netProfitComparison = 0;
                     if (o1.getValue().NETPROFITINCREASE != null && o2.getValue().NETPROFITINCREASE != null) {
-                        netProfitComparison = Long.compare(
-                                Long.parseLong(o2.getValue().NETPROFITINCREASE),
-                                Long.parseLong(o1.getValue().NETPROFITINCREASE));
+                        double netProfit1 = Double.parseDouble(o1.getValue().NETPROFITINCREASE);
+                        double netProfit2 = Double.parseDouble(o2.getValue().NETPROFITINCREASE);
+
+                        // Compare the net profit values
+                        return Double.compare(netProfit2, netProfit1);
                     }
-
-                    if (netProfitComparison == 0) {
-                        return Long.compare(
-                                Long.parseLong(o2.getValue().INCOMEINCREASE),
-                                Long.parseLong(o1.getValue().INCOMEINCREASE));
-                    }
-
-                    return netProfitComparison;
-
                 } catch (NumberFormatException e) {
-                    return 0; // handle the exception
+                    e.printStackTrace();
                 }
+
+                // Default comparison result when there's an issue or null values
+                return 0;
             }
         });
 
